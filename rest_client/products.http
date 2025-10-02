@@ -1,0 +1,27 @@
+###Get all products
+GET http://localhost:5000/api/products
+
+
+##$ Get Single Product### Get a single product by ID
+###
+GET http://localhost:5000/api/products/1
+
+###
+POST http://localhost:5000/api/products
+Content-Type: application/json
+{
+    "title": "New Product",
+    "price": 19.99,
+}
+
+
+reast tool will allow you to send a one request and if youn want to send more than one request to make the icon send the icond appear you must use  ### to make the icon appear to send and in the other hande it is commit to till other developer what is the this api do
+
+Put http://localhost:5000/api/products/1
+Content-Type: application/json
+{
+    "title": "New Product",
+}
+
+
+Delete http://localhost:5000/api/products/1
