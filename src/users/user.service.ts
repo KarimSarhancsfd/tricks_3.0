@@ -1,103 +1,22 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  NotFoundException,
-  Put,
-  Delete,
-  Req,
-  Res,
-  Header,
-  Headers,
-  UseGuards,
-  ParseIntPipe,
-  ValidationPipe,
-  BadRequestException,
-    Injectable,
-  forwardRef,
-  Inject,
-} from '@nestjs/common';
-
-import { CreateUserDto } from './dtos/create-user.dto';
-
-import { UpdateUserDto } from './dtos/update-user.dto';
-import { ReviewsService } from 'src/reviews/reviews.service';
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-@Injectable() // this is a decorator that makes the class injectable
-export class UserService {
-  private user: User[] = [
-    { id: 1, name: 'Alice', email: 'kariminstructor@gmail.com' },
-    { id: 2, name: 'Bob', email: 'bobstudent@gmail.com' },
-    { id: 3, name: 'Charlie', email: 'charlieinstructor@gmail.com' },
-  ];
-
-  constructor(
-    @Inject(forwardRef(() => ReviewsService))
-    private readonly ReviewsService: ReviewsService) {}
+import {BadRequestException, Injectable} from "@nestjs/common";
+import { RegisterDto } from "./dtos/register.dto";
+import {InjectRepository} from "@nestjs/typeorm"
+import { Repository } from "typeorm";
+import {User} from "./user.entity"
 
 
-  public getAllUsers() {
-    return this.user.map((user) => {
-      const role = this.getRoleFromEmail(user.email);
-      return { ...user, role };
-    });
-  }
 
-  createUser(body: CreateUserDto) {
-    const newUser: User = {
-      id: this.user.length + 1,
-      // name: body.name,
-      // email: body.email
-      ...body,
-    };
-    this.user.push(newUser);
-    const role = this.getRoleFromEmail(newUser.email);
-    return { ...newUser, role };
-  }
+@Injectable()
+export class UsersService {
+  constructor (
+    @InjectRepository(User) private readonly usersRepository: Repository<User>
+  ) {}
 
-  public GetSpecficUser(id: number) {
-    const user = this.user.find((u) => u.id === id);
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
-    return user;
-  }
+  public async register(registerDto: RegisterDto){
+    const {email , password,username} = registerDto;
 
-  updateUser(id: number, body: UpdateUserDto) {
-    const user = this.user.find((u) => u.id === id);
-    if (!user) throw new NotFoundException('User not found');
+    const userFromDb = await this.usersRepository.findOne ({where: {email}})
+    if(userFromDb) throw new BadRequestException("user ALREADY exist")
 
-    Object.assign(user, body);
-
-    const role = this.getRoleFromEmail(user.email);
-    return { ...user, role };
-  }
-
-  DeleteUser(id: number) {
-    const user = this.user.find((u) => u.id);
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
-  }
-
-  private getRoleFromEmail(email: string): 'instructor' | 'student' {
-    if (email.includes('instructor')) {
-      return 'instructor';
-    } else if (email.includes('student')) {
-      return 'student';
-    } else {
-      throw new BadRequestException(
-        'Email must include role: "instructor" or "student"',
-      );
-    }
   }
 }
