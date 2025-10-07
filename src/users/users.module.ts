@@ -1,17 +1,16 @@
 import { Module , forwardRef} from '@nestjs/common';
-
-import { UsersController } from './users.controller';
-import { UserService  } from './user.service';
+import { UserController  } from './users.controller';
+import { UsersService  } from './user.service';
 import { ReviewsModule } from 'src/reviews/reviews.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity'; // Import the User entity
 
 //ask your selfe whta doyou want to export from from module from provideer this put it in an exports array where in this case UserService go see then product module to know how the product module will take it(UserService)
 @Module({
-  controllers: [UsersController],
-  providers: [UserService ],
+  controllers: [UserController ],
+  providers: [UsersService ],
   //  exports:[UserService],
-  exports: [UserService], // Export the service so it can be used in other modules
+  exports: [UsersService], // Export the service so it can be used in other modules
   imports: [forwardRef(() => ReviewsModule), TypeOrmModule.forFeature([User])], // If this module depends on other modules, list them here
   //circular dependency recives and send two directions
   // users receives from reviews

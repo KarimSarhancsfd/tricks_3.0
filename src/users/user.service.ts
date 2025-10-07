@@ -1,40 +1,57 @@
-import {BadRequestException, Injectable} from "@nestjs/common";
-import { RegisterDto } from "./dtos/register.dto";
-import {InjectRepository} from "@nestjs/typeorm"
-import { Repository } from "typeorm";
-import {User} from "./user.entity"
-import * as bcrypt from 'bcryptjs'
+// src/users/user.service.ts
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 
-
+import { RegisterDto } from './dtos/register.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor (
-    @InjectRepository(User) private readonly usersRepository: Repository<User>
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
-  public async register(registerDto: RegisterDto){
-    const {email , password,username} = registerDto;
 
-    const userFromDb = await this.usersRepository.findOne ({where: {email}})
-    if(userFromDb) throw new BadRequestException("user ALREADY exist");
+  /**
+   * 
+   * @param registerDto 
+   * @returns 
+   */
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  public async register(registerDto: RegisterDto) {
+  const { email, password, username } = registerDto;
 
-
-    let newUser = this.usersRepository.create({
-      email,
-      username,
-      password: hashedPassword 
-    })
-
-    newUser = await this.usersRepository.save(newUser)
-
-    //@todo -> geneate jwt token
-
-    return newUser;
-
-
+  // Check if user already exists
+  const userFromDb = await this.usersRepository.findOne({ where: { email } });
+  if (userFromDb) {
+    throw new BadRequestException('User already exists');
   }
+
+  // Validate username
+  if (!username || typeof username !== 'string' || username.trim() === '') {
+    throw new BadRequestException('Username is required');
+  }
+
+  // Validate password
+  if (!password || typeof password !== 'string') {
+    throw new BadRequestException('Password must be a non-empty string');
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Create and save new user
+  const newUser = this.usersRepository.create({
+    email,
+    username,
+    password: hashedPassword,
+  });
+
+  const savedUser = await this.usersRepository.save(newUser);
+
+  return savedUser;
+}
 }

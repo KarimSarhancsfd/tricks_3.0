@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
-import { UserService } from 'src/users/user.service';
+import { UsersService } from 'src/users/user.service';
+
 
 type Reviews = {
   id: number;
@@ -18,8 +19,8 @@ type Reviews = {
 @Injectable()
 export class ReviewsService {
   constructor(
-    @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
+    @Inject(forwardRef(() => UsersService))
+    private readonly userService: UsersService,
   ) {}
 
   private reviews: Reviews[] = [

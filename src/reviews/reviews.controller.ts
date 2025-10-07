@@ -14,7 +14,7 @@ import {
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
 import { ReviewsService } from './reviews.service';
-import { UserService } from 'src/users/user.service';
+import { UsersService } from 'src/users/user.service';
 
 
 
@@ -28,7 +28,7 @@ export class ReviewsController {
     //   this.ReviewsService = ReviewsService;
     // } the same as bellow but below is the best practice
   constructor(private readonly ReviewsService: ReviewsService
-    , private readonly userService: UserService
+    , private readonly userService: UsersService
   )
    {}//Beast practise
 

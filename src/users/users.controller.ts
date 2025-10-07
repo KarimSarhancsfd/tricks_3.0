@@ -15,7 +15,7 @@ export class UserController {
   // GET :~/api/users
 
   @Post('auth/register')
-   public register(@Body() body:RegisterDto) {
+   public register(@Body() body: RegisterDto) {
     return this.UsersService.register(body);
    }
-}
+} 
