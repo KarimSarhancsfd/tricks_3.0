@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { RegisterDto } from './dtos/register.dto';
 import { User } from './user.entity';
+import { LoginDto } from './dtos/login.dto';
 
 @Injectable()
 export class UsersService {
@@ -53,5 +54,18 @@ export class UsersService {
   const savedUser = await this.usersRepository.save(newUser);
 
   return savedUser;
+}
+
+
+public async login(loginDto:LoginDto){
+  const {email, password} = loginDto;
+
+  const user = await this.usersRepository.findOne({where: {email}});
+
+  if(!user) throw new BadRequestException("invalid email or password ")
+   const isPasswordMatch =  await bcrypt.compare(password,user.password);
+
+  if(!isPasswordMatch) throw new BadRequestException("invalid email or password")
+
 }
 }
