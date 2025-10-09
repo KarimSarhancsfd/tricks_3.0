@@ -56,7 +56,11 @@ export class UsersService {
   return savedUser;
 }
 
-
+/**
+ * log In user
+ * @param loginDto  data from log in to user account
+ * @returns JWT(access token)
+ */
 public async login(loginDto:LoginDto){
   const {email, password} = loginDto;
 
@@ -65,7 +69,11 @@ public async login(loginDto:LoginDto){
   if(!user) throw new BadRequestException("invalid email or password ")
    const isPasswordMatch =  await bcrypt.compare(password,user.password);
 
-  if(!isPasswordMatch) throw new BadRequestException("invalid email or password")
+  if(!isPasswordMatch) throw new BadRequestException("invalid email or password");
+  //@TODO -> GENERATE jwt Token
+  return user;
+
+
 
 }
 }
