@@ -7,12 +7,15 @@ import * as bcrypt from 'bcryptjs';
 import { RegisterDto } from './dtos/register.dto';
 import { User } from './user.entity';
 import { LoginDto } from './dtos/login.dto';
+import { JwtService } from '@nestjs/jwt';
+import {JWTPayloadType} from "../utils/types"
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    private readonly jwtService: JwtService
   ) {}
 
 
@@ -52,6 +55,8 @@ export class UsersService {
   });
 
   const savedUser = await this.usersRepository.save(newUser);
+
+  const payload:JWTPayloadType = {id: newUser.id, userType: newUser.userType }
 
   return savedUser;
 }
