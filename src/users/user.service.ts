@@ -8,7 +8,8 @@ import { RegisterDto } from './dtos/register.dto';
 import { User } from './user.entity';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import {JWTPayloadType} from "../utils/types"
+import {JWTPayloadType,AccessTokenType} from "../utils/types"
+import { UserType } from 'src/utils/enum';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
    * @returns 
    */
 
-  public async register(registerDto: RegisterDto) {
+  public async register(registerDto: RegisterDto):Promise<AccessTokenType> {
   const { email, password, username } = registerDto;
 
   // Check if user already exists
@@ -56,9 +57,13 @@ export class UsersService {
 
   const savedUser = await this.usersRepository.save(newUser);
 
-  const payload:JWTPayloadType = {id: newUser.id, userType: newUser.userType }
+ 
 
-  return savedUser;
+  const accessToken = await this.generateJWT({id: newUser.id, userType: newUser.userType })
+
+  
+
+  return {accessToken};
 }
 
 /**
@@ -66,7 +71,7 @@ export class UsersService {
  * @param loginDto  data from log in to user account
  * @returns JWT(access token)
  */
-public async login(loginDto:LoginDto){
+public async login(loginDto:LoginDto):Promise<AccessTokenType>{
   const {email, password} = loginDto;
 
   const user = await this.usersRepository.findOne({where: {email}});
@@ -76,9 +81,21 @@ public async login(loginDto:LoginDto){
 
   if(!isPasswordMatch) throw new BadRequestException("invalid email or password");
   //@TODO -> GENERATE jwt Token
-  return user;
 
 
+  const accessToken = await this.generateJWT({id: user.id, userType:user.userType});
 
+  return {accessToken};
+
+}
+
+/**
+ * Generate Json Web Token
+ * @param payload JWT payload
+ * @returns token
+ */
+
+private generateJWT(payload: JWTPayloadType) : Promise<string>{
+  return this.jwtService.signAsync(payload)
 }
 }

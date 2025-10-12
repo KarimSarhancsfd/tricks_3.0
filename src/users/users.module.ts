@@ -19,7 +19,7 @@ import { ConfigService } from '@nestjs/config';
       return{
         global:true,
         secret:config.get<string>("JWT_SECRET"),
-        signOptions: {expiresIn:config.get<string>("JWT_SECRET")}
+        signOptions: {expiresIn:config.get<string>("JWT_EXPIRES_IN")}
       }
     }
   })], // If this module depends on other modules, list them here
