@@ -1,5 +1,5 @@
 // src/users/user.service.ts
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -64,6 +64,19 @@ export class UsersService {
   
 
   return {accessToken};
+}
+
+
+/**
+ * Get current user(logged in user)
+ * @param id  id of the user logged in user
+ * @returns the user from the database
+ */
+
+public async getCurrentUser(id: number){
+  const user = await this.usersRepository.findOne({where: {id}});
+  if(!user) throw new NotFoundException("user not found");
+  return user
 }
 
 /**
