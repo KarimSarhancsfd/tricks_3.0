@@ -30,11 +30,11 @@ export class UserController {
    //GET: ~/api/users/current-user
    @Get("Current-user")
    public getCurrentUser(@Headers() headers:any) {
-   // return this.UsersService.getCurrentUser();
+    return this.UsersService.getCurrentUser(headers.authorization);
 
-   console.log(headers.authorization)
+  //  console.log()
 
-   return "ok";
+  //  return "ok";
 
    //register->login->take the accestoken from user loginin -> current-user in the headers new key choose authrization nad Bearer+space+ past the token from user login 
 
