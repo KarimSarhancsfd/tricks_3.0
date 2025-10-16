@@ -1,7 +1,8 @@
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
-import {Controller, Post,Body,HttpCode,HttpStatus, Get, Req,Headers} from "@nestjs/common"
+import {Controller, Post,Body,HttpCode,HttpStatus, Get, Req,Headers,UseGuards} from "@nestjs/common"
 import { UsersService } from './user.service';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
@@ -29,6 +30,7 @@ export class UserController {
 
    //GET: ~/api/users/current-user
    @Get("Current-user")
+   @UseGuards(AuthGuard)
    public getCurrentUser(@Headers() headers:any) {
     return this.UsersService.getCurrentUser(headers.authorization);
 
