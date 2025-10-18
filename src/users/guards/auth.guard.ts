@@ -3,6 +3,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService} from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JWTPayloadType } from 'src/utils/types';
+import { CURRENT_USER_KEY } from 'src/utils/constants';
 
 
 
@@ -21,7 +22,9 @@ export class AuthGuard implements CanActivate{
                 token, {
                     secret: this.ConfigService.get<string>("JWT_SECRET")
                 }
-            )
+            );
+
+            request[CURRENT_USER_KEY] = payload
 
         }else {
             return false;
