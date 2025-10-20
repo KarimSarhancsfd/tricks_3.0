@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JWTPayloadType } from 'src/utils/types';
@@ -25,10 +25,10 @@ export class AuthGuard implements CanActivate {
 
         request[CURRENT_USER_KEY] = payload;
       } catch (error) {
-        return false;
+       throw new UnauthorizedException("access denied, invalid token")
       }
     } else {
-      return false;
+     throw new UnauthorizedException("access denied, no token provided")
     }
     return true;
   }
