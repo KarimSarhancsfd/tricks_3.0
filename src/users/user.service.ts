@@ -10,7 +10,7 @@ import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import {JWTPayloadType,AccessTokenType} from "../utils/types"
 import { UserType } from 'src/utils/enum';
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +18,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly config: ConfigService
+    // private readonly config: ConfigService
 
   ) {}
 
@@ -76,13 +76,13 @@ export class UsersService {
  * @returns the user from the database
  */
 
-public async getCurrentUser(bearerToken:string){
- const [type,token] = bearerToken.split(" ");
- const payload = await this.jwtService.verifyAsync(token, {
-  secret: this.config.get<string>("JWT_SECRET")
- });
+public async getCurrentUser(id:number){
+//  const [type,token] = bearerToken.split(" ");
+//  const payload = await this.jwtService.verifyAsync(token, {
+//   secret: this.config.get<string>("JWT_SECRET")
+//  });
 
- const user = await this.usersRepository.findOne({where: {id:payload.id}})
+ const user = await this.usersRepository.findOne({where: {id}})
   if(!user) throw new NotFoundException("user not found");
   return user
   // console.log(token)
