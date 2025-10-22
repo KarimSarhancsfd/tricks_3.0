@@ -3,6 +3,7 @@ import { RegisterDto } from './dtos/register.dto';
 import {Controller, Post,Body,HttpCode,HttpStatus, Get, Req,Headers,UseGuards} from "@nestjs/common"
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
+import { CURRENT_USER_KEY } from 'src/utils/constants';
 
 
 
@@ -31,8 +32,9 @@ export class UserController {
    //GET: ~/api/users/current-user
    @Get("Current-user")
    @UseGuards(AuthGuard)
-   public getCurrentUser(@Headers() headers:any) {
-    return this.UsersService.getCurrentUser(headers.authorization);
+   public getCurrentUser(@Req() request: any) {
+    const payload = request[CURRENT_USER_KEY]
+    return this.UsersService.getCurrentUser(payload.id);
 
   //  console.log()
 
