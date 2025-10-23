@@ -1,9 +1,14 @@
+import type { JWTPayloadType } from './../../dist/utils/types.d';
+
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
 import {Controller, Post,Body,HttpCode,HttpStatus, Get, Req,Headers,UseGuards} from "@nestjs/common"
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { CURRENT_USER_KEY } from 'src/utils/constants';
+import { CurrentUser } from './devorators/current-user.decorator';
+
+
 
 
 
@@ -29,18 +34,33 @@ export class UserController {
     return this.UsersService.login(body);
    }
 
+  //  //GET: ~/api/users/current-user
+  //  @Get("Current-user")
+  //  @UseGuards(AuthGuard)
+  //  public getCurrentUser(@Req() request: any) {
+  //   const payload = request[CURRENT_USER_KEY]
+  //   return this.UsersService.getCurrentUser(payload.id);
+
+  // //  console.log()
+
+  // //  return "ok";
+
+  //  //register->login->take the accestoken from user loginin -> current-user in the headers new key choose authrization nad Bearer+space+ past the token from user login 
+
+  //  }
+
+
+
+
+
+
+  //  another method for geting current user
    //GET: ~/api/users/current-user
    @Get("Current-user")
    @UseGuards(AuthGuard)
-   public getCurrentUser(@Req() request: any) {
-    const payload = request[CURRENT_USER_KEY]
+   public getCurrentUser(@CurrentUser() payload: JWTPayloadType) {
     return this.UsersService.getCurrentUser(payload.id);
 
-  //  console.log()
-
-  //  return "ok";
-
-   //register->login->take the accestoken from user loginin -> current-user in the headers new key choose authrization nad Bearer+space+ past the token from user login 
 
    }
 } 
