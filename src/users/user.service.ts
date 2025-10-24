@@ -70,13 +70,14 @@ export class UsersService {
 }
 
 
+
 /**
  * Get current user(logged in user)
  * @param id  id of the user logged in user
  * @returns the user from the database
  */
 
-public async getCurrentUser(id:number){
+public async getCurrentUser(id:number): Promise<User>{
 //  const [type,token] = bearerToken.split(" ");
 //  const payload = await this.jwtService.verifyAsync(token, {
 //   secret: this.config.get<string>("JWT_SECRET")
@@ -87,6 +88,12 @@ public async getCurrentUser(id:number){
   return user
   // console.log(token)
 }
+
+
+public getAll(): Promise<User[]> {
+  return this.usersRepository.find();
+}
+
 
 
 
