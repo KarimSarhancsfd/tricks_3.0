@@ -16,7 +16,7 @@ import {
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { CURRENT_USER_KEY } from 'src/utils/constants';
-import { CurrentUser } from './devorators/current-user.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('api/users')
 export class UserController {
