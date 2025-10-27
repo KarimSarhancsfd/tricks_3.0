@@ -1,4 +1,4 @@
-import type { JWTPayloadType } from './../../dist/utils/types.d';
+
 
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
@@ -15,8 +15,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
-import { CURRENT_USER_KEY } from 'src/utils/constants';
+
 import { CurrentUser } from './decorators/current-user.decorator';
+import type { JWTPayloadType } from '../utils/types';
 
 @Controller('api/users')
 export class UserController {

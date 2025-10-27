@@ -9,7 +9,7 @@ import { User } from './user.entity';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import {JWTPayloadType,AccessTokenType} from "../utils/types"
-import { UserType } from 'src/utils/enum';
+import { UserType } from '../utils/enum';
 // import { ConfigService } from '@nestjs/config';
 
 @Injectable()
