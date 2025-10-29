@@ -66,7 +66,8 @@ export class UserController {
   
 
   @Get()
-  @Roles(UserType.ADMIN)
+  @Roles(UserType.ADMIN, UserType.NORMAL_USER)
+  @UseGuards(AuthGuard)
   public getAllUsers() {
     return this.UsersService.getAll();
   }
