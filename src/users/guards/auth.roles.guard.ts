@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { JWTPayloadType } from 'src/utils/types';
 import { CURRENT_USER_KEY } from 'src/utils/constants';
 import { Reflector } from '@nestjs/core';
+import { UserType } from 'src/utils/enum';
 
 @Injectable()
 export class AuthRolesGuard implements CanActivate {
@@ -14,7 +15,9 @@ export class AuthRolesGuard implements CanActivate {
     private readonly reflector: Reflector
   ) {}
   async canActivate(context: ExecutionContext) {
-    this.reflector.getAllAndOverride('roles', [context.getHandler(), context.getClass()])
+  const roles: UserType[] =   this.reflector.getAllAndOverride('roles', [context.getHandler(), context.getClass()])
+
+  if(!roles || roles.length === 0 ) return false;
     const request: Request = context.switchToHttp().getRequest();
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     if (token && type === 'Bearer') {
