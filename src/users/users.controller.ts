@@ -17,6 +17,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
+import { AuthRolesGuard } from './guards/auth.roles.guard';
 
 import { CurrentUser } from './decorators/current-user.decorator';
 import type { JWTPayloadType } from '../utils/types';
@@ -67,7 +68,7 @@ export class UserController {
 
   @Get()
   @Roles(UserType.ADMIN)
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthRolesGuard)
   public getAllUsers() {
     return this.UsersService.getAll();
   }
