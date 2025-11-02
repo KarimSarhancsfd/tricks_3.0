@@ -1,6 +1,5 @@
 import { UserType } from './../utils/enum';
 
-
 import { LoginDto } from './dtos/login.dto';
 
 import { RegisterDto } from './dtos/register.dto';
@@ -22,8 +21,7 @@ import { AuthRolesGuard } from './guards/auth.roles.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import type { JWTPayloadType } from '../utils/types';
 
-import {Roles} from "./decorators/user-role.decorator"
-
+import { Roles } from './decorators/user-role.decorator';
 
 @Controller('api/users')
 export class UserController {
@@ -60,11 +58,11 @@ export class UserController {
   //  another method for geting current user
   //GET: ~/api/users/current-user
   @Get('Current-user')
+  // @Roles(UserType.ADMIN,UserType.NORMAL_USER)
   @UseGuards(AuthGuard)
   public getCurrentUser(@CurrentUser() payload: JWTPayloadType) {
     return this.UsersService.getCurrentUser(payload.id);
   }
-  
 
   @Get()
   @Roles(UserType.ADMIN)
@@ -72,7 +70,4 @@ export class UserController {
   public getAllUsers() {
     return this.UsersService.getAll();
   }
-
-
-
 }
