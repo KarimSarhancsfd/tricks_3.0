@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import {JWTPayloadType,AccessTokenType} from "../utils/types"
 import { UserType } from '../utils/enum';
 // import { ConfigService } from '@nestjs/config';
+import { UpdatteUserDto } from './dtos/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -130,5 +131,9 @@ public async login(loginDto:LoginDto):Promise<AccessTokenType>{
 
 private generateJWT(payload: JWTPayloadType) : Promise<string>{
   return this.jwtService.signAsync(payload)
+}
+
+public async update(id: number, updateUserDto: UpdatteUserDto){
+  
 }
 }
