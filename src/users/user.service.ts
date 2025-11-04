@@ -133,7 +133,33 @@ private generateJWT(payload: JWTPayloadType) : Promise<string>{
   return this.jwtService.signAsync(payload)
 }
 
+
+/**
+ * 
+ * @param id id of logged in user
+ * @param updateUserDto data for updating the user
+ * @returns updated user from the database
+ */
+
 public async update(id: number, updateUserDto: UpdatteUserDto){
+
+  const {password, username} = updateUserDto;
+
+  const user = await this.usersRepository.findOne({where: {id}});
+
+    if (!user) {
+    throw new NotFoundException(`User with ID ${id} not found`);
+  }
+
+
+  user.username = username ?? user.username
+
+  if(password){
+    const salt = await bcrypt.genSalt(10)
+    user.password = await bcrypt.hash(password, salt)
+  }
+
+  return this.usersRepository.save(user)
   
 }
 }
