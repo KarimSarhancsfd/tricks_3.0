@@ -50,7 +50,7 @@ export class UsersService {
   }
 
   // Hash password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await this.hashPassword(password)
 
   // Create and save new user
   const newUser = this.usersRepository.create({
@@ -155,11 +155,23 @@ public async update(id: number, updateUserDto: UpdatteUserDto){
   user.username = username ?? user.username
 
   if(password){
-    const salt = await bcrypt.genSalt(10)
-    user.password = await bcrypt.hash(password, salt)
+  
+    user.password = await this.hashPassword(password)
   }
 
   return this.usersRepository.save(user)
   
+}
+
+
+
+/**
+ * Hash password
+ * @param password plain text password
+ * @returns hashed password
+ */
+private async hashPassword(password:string): Promise<string>{
+  const salt = await bcrypt.genSalt(10)
+    return bcrypt.hash(password, salt)
 }
 }
