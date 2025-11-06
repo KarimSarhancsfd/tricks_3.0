@@ -35,9 +35,7 @@ export class UsersService {
 
   // Check if user already exists
   const userFromDb = await this.usersRepository.findOne({ where: { email } });
-  if (userFromDb) {
-    throw new BadRequestException('User already exists');
-  }
+  if (userFromDb) {throw new BadRequestException('User already exists');}
 
   // Validate username
   if (!username || typeof username !== 'string' || username.trim() === '') {

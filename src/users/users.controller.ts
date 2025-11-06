@@ -13,6 +13,7 @@ import {
   Req,
   Headers,
   UseGuards,
+  Put
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -22,6 +23,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import type { JWTPayloadType } from '../utils/types';
 
 import { Roles } from './decorators/user-role.decorator';
+import { UpdatteUserDto } from './dtos/update-user.dto';
 
 @Controller('api/users')
 export class UserController {
@@ -69,5 +71,14 @@ export class UserController {
   @UseGuards(AuthRolesGuard)
   public getAllUsers() {
     return this.UsersService.getAll();
+  }
+
+  //PUT: ~/api/users
+  @Put()
+  @Roles(UserType.ADMIN, UserType.NORMAL_USER)
+  @UseGuards(AuthRolesGuard)
+  public updateUser(@CurrentUser() payload: JWTPayloadType, @Body() body: UpdatteUserDto){
+
+    return this.UsersService.update(payload.id, body);
   }
 }
