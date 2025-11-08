@@ -1,5 +1,5 @@
 // src/users/user.service.ts
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -167,6 +167,7 @@ public async delete(userId:number, payload: JWTPayloadType){
     await this.usersRepository.remove(user);
     return {message: 'User has been deleted'}
   }
+  throw new ForbiddenException("access denied, you are not allowed")
 }
 
 
