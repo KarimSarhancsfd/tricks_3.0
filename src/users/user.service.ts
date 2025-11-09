@@ -161,6 +161,13 @@ public async update(id: number, updateUserDto: UpdatteUserDto){
   
 }
 
+/**
+ * Delete user
+ * @param userId id of the user
+ * @param payload JWTPayload
+ * @returns a success message
+ */
+
 public async delete(userId:number, payload: JWTPayloadType){
   const user = await this.getCurrentUser(userId);
   if(user.id === payload?.id || payload.userType === UserType.ADMIN){

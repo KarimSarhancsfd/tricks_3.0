@@ -13,7 +13,10 @@ import {
   Req,
   Headers,
   UseGuards,
-  Put
+  Put,
+  ParseIntPipe,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -81,4 +84,13 @@ export class UserController {
 
     return this.UsersService.update(payload.id, body);
   }
+
+  // DELETE: ~/api/users/:id
+  @Delete(":id")
+  @Roles(UserType.ADMIN,UserType.NORMAL_USER)
+  @UseGuards(AuthGuard)
+  public deleteUser(@Param("id",ParseIntPipe) id: number, @CurrentUser() payload: JWTPayloadType){
+    return this.UsersService.delete(id, payload)
+  }
+
 }
