@@ -8,20 +8,11 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const now = Date.now();
-    const request = context.switchToHttp().getRequest();
-    const method = request.method;
-    const url = request.url;
+  intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
+    console.log("Before Route Handler")
 
-    console.log(`Incoming Request: ${method} ${url}`);
-
-    return next.handle().pipe(
-      tap(() =>
-        console.log(
-          `Response for ${method} ${url} completed in ${Date.now() - now}ms`,
-        ),
-      ),
-    );
+    return next.handle().pipe(tap(() => console.log("After Route Handler")))
+ 
   }
+
 }
