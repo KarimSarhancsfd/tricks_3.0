@@ -17,6 +17,7 @@ import {
   ParseIntPipe,
   Param,
   Delete,
+  UseInterceptors
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -27,6 +28,7 @@ import type { JWTPayloadType } from '../utils/types';
 
 import { Roles } from './decorators/user-role.decorator';
 import { UpdatteUserDto } from './dtos/update-user.dto';
+import { LoggerInterceptor } from 'src/utils/intererceptors/logger.interceptor';
 
 @Controller('api/users')
 export class UserController {
@@ -65,7 +67,9 @@ export class UserController {
   @Get('Current-user')
   // @Roles(UserType.ADMIN,UserType.NORMAL_USER)
   @UseGuards(AuthGuard)
+  @UseInterceptors(LoggerInterceptor)
   public getCurrentUser(@CurrentUser() payload: JWTPayloadType) {
+    console.log("Get Current User Route Handler Called")
     return this.UsersService.getCurrentUser(payload.id);
   }
 
