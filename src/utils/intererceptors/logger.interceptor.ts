@@ -15,6 +15,7 @@ export class LoggerInterceptor implements NestInterceptor {
     return next.handle().pipe(map((dataFromRouteHandler) => {
       const {password, ...otherData} = dataFromRouteHandler;
       return {...otherData}
+      
     }))
  
   }

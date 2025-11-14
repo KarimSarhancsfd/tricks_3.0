@@ -17,7 +17,8 @@ import {
   ParseIntPipe,
   Param,
   Delete,
-  UseInterceptors
+  UseInterceptors,
+  ClassSerializerInterceptor
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
@@ -67,9 +68,10 @@ export class UserController {
   @Get('Current-user')
   // @Roles(UserType.ADMIN,UserType.NORMAL_USER)
   @UseGuards(AuthGuard)
-  @UseInterceptors(LoggerInterceptor)
+  // @UseInterceptors(LoggerInterceptor)
+   @UseInterceptors(ClassSerializerInterceptor)
   public getCurrentUser(@CurrentUser() payload: JWTPayloadType) {
-    console.log("Get Current User Route Handler Called")
+    // console.log("Get Current User Route Handler Called")
     return this.UsersService.getCurrentUser(payload.id);
   }
 
