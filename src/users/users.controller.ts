@@ -78,6 +78,7 @@ export class UserController {
   @Get()
   @Roles(UserType.ADMIN)
   @UseGuards(AuthRolesGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   public getAllUsers() {
     return this.UsersService.getAll();
   }
