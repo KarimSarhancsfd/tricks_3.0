@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module} from '@nestjs/common';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { ReviewsModule } from './reviews/reviews.module';
@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'rxjs';
 import { Review } from './reviews/review.entity';
 import { User } from './users/user.entity';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 @Module({
   // impotant Note: this is a typo, we canot inject in forroot
   //   imports: [ProductsModule,  ReviewsModule, UsersModule, TypeOrmModule.forRoot({
@@ -49,7 +50,16 @@ import { User } from './users/user.entity';
         entities: [Product, Review, User], // Add your entities here
       }),
     }),
+
+
   ],
+     providers: [
+    {
+      provide:APP_INTERCEPTOR,
+      useClass:ClassSerializerInterceptor
+
+    }
+   ]
   
 })
 export class AppModule {}
