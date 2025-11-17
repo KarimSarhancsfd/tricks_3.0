@@ -31,7 +31,7 @@ export class User {
 
 
    @Column()
-   @Exclude()
+   @Exclude() //if we want to remove email we need then to add exclude decoratore to email or password
   password: string;
 
     @Column({type: 'enum', enum: UserType, default: UserType.NORMAL_USER })

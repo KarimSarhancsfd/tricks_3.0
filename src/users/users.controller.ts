@@ -69,7 +69,7 @@ export class UserController {
   // @Roles(UserType.ADMIN,UserType.NORMAL_USER)
   @UseGuards(AuthGuard)
   // @UseInterceptors(LoggerInterceptor)
-   @UseInterceptors(ClassSerializerInterceptor)
+  //  @UseInterceptors(ClassSerializerInterceptor) as we add it inthe interceptore inthe app provider no need to add it in each route handler
   public getCurrentUser(@CurrentUser() payload: JWTPayloadType) {
     // console.log("Get Current User Route Handler Called")
     return this.UsersService.getCurrentUser(payload.id);
@@ -78,7 +78,7 @@ export class UserController {
   @Get()
   @Roles(UserType.ADMIN)
   @UseGuards(AuthRolesGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
+ 
   public getAllUsers() {
     return this.UsersService.getAll();
   }
