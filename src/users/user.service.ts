@@ -12,6 +12,7 @@ import {JWTPayloadType,AccessTokenType} from "../utils/types"
 import { UserType } from '../utils/enum';
 // import { ConfigService } from '@nestjs/config';
 import { UpdatteUserDto } from './dtos/update-user.dto';
+import { AuthService } from './guards/auth.service';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +20,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    private readonly AuthService:AuthService
     // private readonly config: ConfigService
 
   ) {}

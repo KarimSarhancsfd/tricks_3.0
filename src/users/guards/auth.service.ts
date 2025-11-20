@@ -27,10 +27,13 @@ export class AuthService {
     return this.jwtService.signAsync(payload);
   }
 
-  private async hashPassword(password:string): Promise<string>{
+  public async hashPassword(password:string): Promise<string>{
     const salt = await bcrypt.genSalt(10)
       return bcrypt.hash(password, salt)
   }
+
+
+
   /**
    *
    * @param registerDto
@@ -100,4 +103,8 @@ export class AuthService {
 
     return { accessToken };
   }
+
+
+
+  
 }
