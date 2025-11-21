@@ -27,6 +27,20 @@ export class UsersService {
 
 
 
+  
+  /**
+   *
+   * @param registerDto
+   * @returns
+   */
+
+  public async register(registerDto: RegisterDto): Promise<AccessTokenType> {
+    return this.AuthService.register(registerDto)
+ 
+  }
+
+
+
 
 
 
