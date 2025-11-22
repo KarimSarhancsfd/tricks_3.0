@@ -68,6 +68,16 @@ public getAll(): Promise<User[]> {
 }
 
 
+  /**
+   * log In user
+   * @param loginDto  data from log in to user account
+   * @returns JWT(access token)
+   */
+  public async login(loginDto: LoginDto): Promise<AccessTokenType> {
+    return this.AuthService.login(loginDto)
+  }
+
+
 
 /**
  * Generate Json Web Token
