@@ -20,8 +20,10 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly AuthService:AuthService
+    private readonly authService:AuthService
     // private readonly config: ConfigService
+  
+
 
   ) {}
 
@@ -35,7 +37,7 @@ export class UsersService {
    */
 
   public async register(registerDto: RegisterDto): Promise<AccessTokenType> {
-    return this.AuthService.register(registerDto)
+    return this.authService.register(registerDto)
  
   }
 
@@ -74,7 +76,7 @@ public getAll(): Promise<User[]> {
    * @returns JWT(access token)
    */
   public async login(loginDto: LoginDto): Promise<AccessTokenType> {
-    return this.AuthService.login(loginDto)
+    return this.authService.login(loginDto)
   }
 
 
@@ -109,7 +111,7 @@ public async update(id: number, updateUserDto: UpdatteUserDto){
 
   if(password){
   
-    user.password = await this.hashPassword(password)
+    user.password = await this.authService.hashPassword(password)
   }
 
   return this.usersRepository.save(user)
