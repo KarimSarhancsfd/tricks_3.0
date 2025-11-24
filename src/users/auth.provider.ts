@@ -8,14 +8,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 
-import { RegisterDto } from '../dtos/register.dto';
-import { User } from '../user.entity';
-import { LoginDto } from '../dtos/login.dto';
+import { RegisterDto } from './dtos/register.dto';
+import { User } from './user.entity';
+import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { JWTPayloadType, AccessTokenType } from '../../utils/types';
+import { JWTPayloadType, AccessTokenType } from '../utils/types';
 
 @Injectable()
-export class AuthService {
+export class AuthProvider {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
@@ -27,12 +27,10 @@ export class AuthService {
     return this.jwtService.signAsync(payload);
   }
 
-  public async hashPassword(password:string): Promise<string>{
-    const salt = await bcrypt.genSalt(10)
-      return bcrypt.hash(password, salt)
+  public async hashPassword(password: string): Promise<string> {
+    const salt = await bcrypt.genSalt(10);
+    return bcrypt.hash(password, salt);
   }
-
-
 
   /**
    *
@@ -103,8 +101,4 @@ export class AuthService {
 
     return { accessToken };
   }
-
-
-
-  
 }
