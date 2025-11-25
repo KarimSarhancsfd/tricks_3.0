@@ -7,6 +7,7 @@ import { ReviewsModule } from 'src/reviews/reviews.module';
 import { ReviewsService } from 'src/reviews/reviews.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './product.entity'; // Importing the Product entity
+import { UsersModule } from 'src/users/users.module';
 // GET:  /api/products
 
 // This module imports UsersModule to use UserService in ProductsService
@@ -22,6 +23,6 @@ import { Product } from './product.entity'; // Importing the Product entity
      //outer dependency reciver
         // products receives from reviews
 
-        imports:[forwardRef(() => ReviewsModule) ,TypeOrmModule.forFeature([Product])], // TypeOrmModule.forFeature is used to register the Product entity with TypeORM
+        imports:[forwardRef(() => ReviewsModule) ,TypeOrmModule.forFeature([Product]), UsersModule], // TypeOrmModule.forFeature is used to register the Product entity with TypeORM
 }) //decorator 
 export class ProductsModule{}

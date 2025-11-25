@@ -6,6 +6,7 @@ import { ReviewsService } from '../reviews/reviews.service';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersService } from 'src/users/user.service';
 
 // type Products = {
 //   id: number;
@@ -52,7 +53,9 @@ export class ProductsService {
 
   constructor(
     @InjectRepository(Product)
-    private readonly productsRepository: Repository<Product>){}
+    private readonly productsRepository: Repository<Product>,
+    private readonly userService: UsersService
+  ){}
 
   // public getAllProducts() {
   //   // return this.products;
