@@ -20,6 +20,7 @@ import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { ProductsService } from './products.service';
 // import {ConfigService} from '@nestjs/config';
+import {} from  "../utils/"
 
 @Controller('api/products')
 export class ProductsController {

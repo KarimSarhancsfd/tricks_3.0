@@ -98,10 +98,21 @@ export class ProductsService {
   //   // return newProduct;  
   // }
 
-  public async createProduct(dto: CreateProductDto) {
-    const newProduct = this.productsRepository.create(dto);
-    return await this.productsRepository.save(newProduct);
-      console.log("created product ", newProduct);
+  /**
+   * 
+   * @param dto 
+   * @param userId 
+   * @returns 
+   */
+
+  public async createProduct(dto: CreateProductDto, userId:number) {
+ const user = await this.userService.getCurrentUser(userId)
+ const newProduct = this.productsRepository.create({
+  ...dto,//BOOK -> book
+  title: dto.title.toLowerCase(),
+  user
+ });
+ return this.productsRepository.save(newProduct)
 
   }
 
