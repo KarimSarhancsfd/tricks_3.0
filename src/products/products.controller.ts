@@ -1,3 +1,4 @@
+import { UserType } from './../utils/enum';
 import {
   Controller,
   Get,
@@ -20,7 +21,12 @@ import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { ProductsService } from './products.service';
 // import {ConfigService} from '@nestjs/config';
-import {} from  "../utils/"
+import {AuthRolesGuard} from '../users/guards/auth.roles.guard'
+import {CurrentUser} from "../users/decorators/current-user.decorator"
+import type {JWTPayloadType} from "../utils/types"
+import {Roles} from "../users/decorators/user-role.decorator"
+import { User } from 'src/users/user.entity';
+
 
 @Controller('api/products')
 export class ProductsController {
@@ -40,10 +46,9 @@ export class ProductsController {
    *  Create new product
    */
   @Post()
-  public createProduct(
-    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    body: CreateProductDto,
-  ) {
+  @UseGuards(AuthRolesGuard)
+  @Roles(UserType.ADMIN)
+  public createProduct(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) body: CreateProductDto, @CurrentUser() payload:JWTPayloadType) {
     //whitelist: true
     // this will remove any property that is not defined in the dto
     // forbidNonWhitelisted: true
@@ -53,7 +58,7 @@ export class ProductsController {
     //    console.log(body);
     //    return body;
 
-    return this.ProductsService.createProduct(body);
+    return this.ProductsService.createProduct(body,payload.id);
   }
 
   /**
