@@ -70,7 +70,7 @@ export class ProductsService {
   // console.log('Fetched products:', products);
   // return products;
 
-  return this.productsRepository.find({relations: {user: true}})
+  return this.productsRepository.find({relations: {user: true, reviews: true}})
 
 
   }
