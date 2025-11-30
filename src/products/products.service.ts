@@ -143,7 +143,7 @@ export class ProductsService {
   // }
 
   public async getsingleProducts(id: number) {
-    const product = await this.productsRepository.findOneBy({ id });
+    const product = await this.productsRepository.findOne(  { where: {id} , relations: {user: true, reviews: true} });
     if (!product)
       throw new NotFoundException(`product not found ${id}`, {
         description: 'this is description',
