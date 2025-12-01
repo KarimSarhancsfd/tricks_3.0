@@ -37,7 +37,7 @@ export class Product {
     onUpdate: CURRENT_TIMESTAMP,
   })
   updatedAt: Date;
-   @OneToMany(() => Review, (review) => review.product)
+   @OneToMany(() => Review, (review) => review.product, {eager: true})
   reviews: Review[];
 
   //IMPORTANT nOTE:
@@ -56,7 +56,7 @@ export class Product {
 // However, this line alone doesn’t establish the actual relationship in TypeORM. It just tells TypeScript that your Product will have an array of Review objects. For it to be functional with your database, you’ll need to decorate it properly.
 
 
-@ManyToOne(() => User, (user) => user.products)
+@ManyToOne(() => User, (user) => user.products, {eager: true})
 user: User;
 
 
