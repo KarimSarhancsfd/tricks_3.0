@@ -15,6 +15,7 @@ import {
   UseGuards,
   ParseIntPipe,
   ValidationPipe,
+  Query
 } from '@nestjs/common';
 
 import { CreateProductDto } from './dtos/create-product.dto';
@@ -65,12 +66,13 @@ export class ProductsController {
    *  Get all product
    */
   @Get()
-  public getAllProducts() {
+  public getAllProducts(@Query() query: any) {
     // const sampleEnvVariable = this.configService.get<string>('SAMPLE_ENV_VARIABLE');
     // This will log the value of SAMPLE_ENV_VARIABLE from the .env file
     // You can also use it in your service or anywhere else in your application
     const sample1 = process.env.SAMPLE_ENV_VARIABLE;
     // console.log(sampleEnvVariable, sample1);
+    console.log(query)
     return this.ProductsService.getAllProducts();
   }
 
@@ -86,6 +88,8 @@ export class ProductsController {
    * Update product by id
    */
   @Put(':id')
+    @UseGuards(AuthRolesGuard)
+  @Roles(UserType.ADMIN)
   public updateProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body(new ValidationPipe()) body: UpdateProductDto,
@@ -108,6 +112,8 @@ export class ProductsController {
    * Delete product by id
    */
   @Delete(':id')
+    @UseGuards(AuthRolesGuard)
+  @Roles(UserType.ADMIN)
   public deleteproduct(@Param('id', ParseIntPipe) id: number) {
     return this.ProductsService.deleteproduct(id);
   }
