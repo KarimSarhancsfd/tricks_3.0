@@ -64,13 +64,16 @@ export class ProductsService {
   //   // return {products,users}
   // }
 
-  public async getAllProducts() {
+  public async getAllProducts(title?: string) {
    
   // const products =  await this.productsRepository.find();
   // console.log('Fetched products:', products);
   // return products;
 
-  return this.productsRepository.find({relations: {user: true, reviews: true}})
+
+   return this.productsRepository.find()
+
+  // return this.productsRepository.find({relations: {user: true, reviews: true}})
 
 
   }

@@ -66,13 +66,13 @@ export class ProductsController {
    *  Get all product
    */
   @Get()
-  public getAllProducts(@Query() query: any) {
+  public getAllProducts(@Query('title') title: string) {
     // const sampleEnvVariable = this.configService.get<string>('SAMPLE_ENV_VARIABLE');
     // This will log the value of SAMPLE_ENV_VARIABLE from the .env file
     // You can also use it in your service or anywhere else in your application
     const sample1 = process.env.SAMPLE_ENV_VARIABLE;
     // console.log(sampleEnvVariable, sample1);
-    console.log(query)
+    console.log(title)
     return this.ProductsService.getAllProducts();
   }
 
