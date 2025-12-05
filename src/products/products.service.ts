@@ -71,7 +71,7 @@ export class ProductsService {
   // return products;
 
 
-   return this.productsRepository.find()
+   return this.productsRepository.find({where: {title: title}})
 
   // return this.productsRepository.find({relations: {user: true, reviews: true}})
 

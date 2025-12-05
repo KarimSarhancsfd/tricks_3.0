@@ -73,7 +73,7 @@ export class ProductsController {
     const sample1 = process.env.SAMPLE_ENV_VARIABLE;
     // console.log(sampleEnvVariable, sample1);
     console.log(title)
-    return this.ProductsService.getAllProducts();
+    return this.ProductsService.getAllProducts(title);
   }
 
   /**
