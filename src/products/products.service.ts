@@ -4,7 +4,7 @@ import { UpdateProductDto } from './dtos/update-product.dto';
 // import { UserService } from 'src/users/user.service';
 import { ReviewsService } from '../reviews/reviews.service';
 import { Product } from './product.entity';
-import { Repository } from 'typeorm';
+import { Repository , Like} from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/user.service';
 
@@ -71,7 +71,7 @@ export class ProductsService {
   // return products;
 
 
-   return this.productsRepository.find({where: {title: title}})
+   return this.productsRepository.find({where: {title: Like(`%${title}%`)}});
 
   // return this.productsRepository.find({relations: {user: true, reviews: true}})
 
