@@ -4,7 +4,7 @@ import { UpdateProductDto } from './dtos/update-product.dto';
 // import { UserService } from 'src/users/user.service';
 import { ReviewsService } from '../reviews/reviews.service';
 import { Product } from './product.entity';
-import { Repository , Like} from 'typeorm';
+import { Repository , Like, Between} from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/user.service';
 
@@ -64,16 +64,30 @@ export class ProductsService {
   //   // return {products,users}
   // }
 
-  public async getAllProducts(title?: string) {
+  public async getAllProducts(title?: string, minPrice?: string,maxPrice?: string) {
    
   // const products =  await this.productsRepository.find();
   // console.log('Fetched products:', products);
   // return products;
 
 
-   return this.productsRepository.find({where: {title: Like(`%${title}%`)}});
+  //  return this.productsRepository.find({where: {price: Between(parseInt(minPrice),parseInt(maxPrice))}});
 
   // return this.productsRepository.find({relations: {user: true, reviews: true}})
+
+
+   const where: any = {};
+
+  if (minPrice && maxPrice) {
+    where.price = Between(parseInt(minPrice), parseInt(maxPrice));
+  }
+
+  if (title) {
+    where.title = title;
+  }
+
+  return this.productsRepository.find({ where });
+
 
 
   }
