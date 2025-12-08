@@ -76,17 +76,22 @@ export class ProductsService {
   // return this.productsRepository.find({relations: {user: true, reviews: true}})
 
 
-   const where: any = {};
+  //  const where: any = {};
 
-  if (minPrice && maxPrice) {
-    where.price = Between(parseInt(minPrice), parseInt(maxPrice));
+  // if (minPrice && maxPrice) {
+  //   where.price = Between(parseInt(minPrice), parseInt(maxPrice));
+  // }
+
+  // if (title) {
+  //   where.title = title;
+  // }
+
+  const filters = {
+    ...(title ? {title: Like('%${title.tolowerCase()}%')}: {}),
+    ...(minPrice && maxPrice ? {price: Between(parseInt(minPrice), parseInt(maxPrice) )} : {} )
   }
 
-  if (title) {
-    where.title = title;
-  }
-
-  return this.productsRepository.find({ where });
+  return this.productsRepository.find({ where: filters  });
 
 
 
