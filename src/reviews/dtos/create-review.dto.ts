@@ -1,3 +1,4 @@
+
 import {
   IsString,
   IsNumber,
@@ -9,17 +10,13 @@ import {
   Length,
 } from 'class-validator';
 
-export class CreateReviewDto {
-  @IsString({ message: 'Products must be a string' })
-  @IsNotEmpty({ message: 'Products is required' })
-  @Length(3, 100)
-  products: string;
-  @IsNumber({}, { message: 'Rating must be a number' })
-  @IsNotEmpty({ message: 'Rating is required' })
-  @Min(1, { message: 'Rating must be at least 1' })
-  @Max(5, { message: 'Rating must not exceed 5' })
-  rating: number;
-  @IsString({ message: 'Products must be a string' })
-  @Length(3, 100)
-  review: string;
+export class CreateReviewDto { 
+ @IsNumber()
+ @Min(1)
+ @Max(5)
+ rating: number
+
+ @IsString()
+ @MinLength(2)
+ comment: string
 }
