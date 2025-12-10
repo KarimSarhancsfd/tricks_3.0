@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
-import { UsersService, UserService } from 'src/users/user.service';
+import { UsersService } from 'src/users/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from './review.entity';
 import { Repository } from 'typeorm';
@@ -25,7 +25,7 @@ export class ReviewsService {
   constructor(
    @InjectRepository(Review) private readonly reviewRepository: Repository<Review>,
    private readonly productService: ProductsService,
-   private readonly UserService: UserService
+   private readonly UserService:  UsersService 
 
   ) {}
 
