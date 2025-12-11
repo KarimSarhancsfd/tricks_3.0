@@ -35,7 +35,7 @@ export class Review {
     onUpdate: CURRENT_TIMESTAMP,
   })
   updatedAt: Date;
-   @ManyToOne(() => Product, (product) => product.reviews)
+   @ManyToOne(() => Product, (product) => product.reviews, {eager:true})
    //amany to-one relationship with Product
   // the first argument is a function that returns the Product entity or the target function
   // the second argument is a function that returns the reviews associated with the product
@@ -43,7 +43,7 @@ export class Review {
     // Establishing a many-to-one relationship with Product
     // A reviews belongs to a single product
 
-  @ManyToOne(() => User, (user) => user.review)
+  @ManyToOne(() => User, (user) => user.review, {eager:true})
     user: User;
   
 }
