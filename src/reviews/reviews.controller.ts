@@ -9,12 +9,21 @@ import {
   Body,
   ParseIntPipe,
   ValidationPipe,
+  UseGuards,
+
 } from '@nestjs/common';
 
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
 import { ReviewsService } from './reviews.service';
 import { UsersService } from 'src/users/user.service';
+import { CurrentUser } from 'src/users/decorators/current-user.decorator';
+import { AuthRolesGuard } from 'src/users/guards/auth.roles.guard';
+import type { JWTPayloadType } from 'src/utils/types';
+
+import { Roles } from 'src/users/decorators/user-role.decorator';
+import { UserType } from '../utils/enum';
+
 
 
 
@@ -35,55 +44,22 @@ export class ReviewsController {
 
   //GET: http://localhost:5000/api/reviews
   //GET: ~/api/reviews
-  @Get()
-  getAllreviews() {
-    return this.ReviewsService.getAllreviews();
-  }
-  //post single element
-  @Post()
-  public createRview(
-    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    body: CreateReviewDto,
-  ) {
-    // console.log(body);
-    //     return body
-
-    return this.ReviewsService.createRview(body);
-  }
-
-  //add multiple array with multiple object
-  //     @Post()
-  // createMultipleReviews(@Body() body: CreateReviewDto[]){
-  //     const newReviews: Reviews[] = body.map((item, index) => ({
-  //         id: this.reviews.length + index + 1,
-  //         products: item.products,
-  //         review: item.review,
-  //         rating: item.rating
-  //     }));
-  //     this.reviews.push(...newReviews);
-  //     return newReviews;
+  // @Get()
+  // getAllreviews() {
+  //   return this.ReviewsService.getAllreviews();
   // }
 
-  @Get('/:id')
-  public getReviewById(@Param('id', ParseIntPipe) id: number) {
-   return this.ReviewsService.getReviewById(id);
+  //POST: ~/api/review/:productId
+  @Post(':productId')
+  @UseGuards(AuthRolesGuard)
+  @Roles(UserType.ADMIN, UserType.NORMAL_USER)
+  public createNewReview(
+    @Param('productId', ParseIntPipe) productId:number,
+    @Body() body: CreateReviewDto,
+    @CurrentUser( ) payload: JWTPayloadType,
+  ){
+    return this.ReviewsService.createReview(productId, payload.id,body)
+  }
+
  
-  }
-
-  @Put(':id')
-  public updateReview(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    body: UpdateReviewDto,
-  ) {
-   
-
-    return this.ReviewsService.updateReview; // Return the updated review
-  }
-
-  @Delete(':id')
-  public deleteReview(@Param('id', ParseIntPipe) id: number) {
-  
-    return this.ReviewsService.deleteReview(id);
-  }
 }
