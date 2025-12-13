@@ -47,7 +47,19 @@ export class ReviewsService {
 
     const review = this.reviewRepository.create({...dto,user,product});
 
-    return this.reviewRepository.save(review)
+    const result = await  this.reviewRepository.save(review)
+
+    return {
+      id:result.id,
+      comment: result.comment,
+      rating: result.rating,
+      createdAt: result.createdAt,
+      userId:user.id,
+      productId: product.id,
+      
+      
+
+    }
   }
 
   
