@@ -53,7 +53,7 @@ export class ReviewsController {
   @Post(':productId')
   @UseGuards(AuthRolesGuard)
   @Roles(UserType.ADMIN, UserType.NORMAL_USER)
-  public createNewReview(
+  public updateReview(
     @Param('productId', ParseIntPipe) productId:number,
     @Body() body: CreateReviewDto,
     @CurrentUser( ) payload: JWTPayloadType,
