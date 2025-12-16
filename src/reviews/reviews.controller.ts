@@ -55,7 +55,7 @@ export class ReviewsController {
   @Roles(UserType.ADMIN, UserType.NORMAL_USER)
   public updateReview(
     @Param('productId', ParseIntPipe) productId:number,
-    @Body() body: CreateReviewDto,
+    @Body() body: UpdateReviewDto,
     @CurrentUser( ) payload: JWTPayloadType,
   ){
     return this.ReviewsService.createReview(productId, payload.id,body)
