@@ -56,10 +56,14 @@ export class ReviewsService {
       createdAt: result.createdAt,
       userId:user.id,
       productId: product.id,
-      
-      
-
     }
+
+    
+  }
+
+  public async update(reviewId:number, userId:number, dto: UpdateReviewDto){
+    const review = await this.reviewRepository.findOne({where: {id: reviewId}})
+    if(!review) throw new NotFoundException("review not found")
   }
 
   

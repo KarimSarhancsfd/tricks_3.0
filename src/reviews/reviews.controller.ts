@@ -50,15 +50,15 @@ export class ReviewsController {
   // }
 
   //POST: ~/api/review/:productId
-  @Post(':productId')
+  @Put(':id')
   @UseGuards(AuthRolesGuard)
   @Roles(UserType.ADMIN, UserType.NORMAL_USER)
   public updateReview(
-    @Param('productId', ParseIntPipe) productId:number,
+    @Param('id', ParseIntPipe) id:number,
     @Body() body: UpdateReviewDto,
-    @CurrentUser( ) payload: JWTPayloadType,
+    @CurrentUser( ) payload: JWTPayloadType
   ){
-    return this.ReviewsService.createReview(productId, payload.id,body)
+    return this.ReviewsService.update(id,payload.id,body)
   }
 
  
