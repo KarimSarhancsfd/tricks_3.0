@@ -66,5 +66,19 @@ export class ReviewsService {
     if(!review) throw new NotFoundException("review not found")
   }
 
+
+  /**
+   * get single review by id
+   * @param id id of the review
+   * @returns review from the database
+   */
+
+
+  private async getReview(id: number){
+     const review = await this.reviewRepository.findOne({where: {id}})
+    if(!review) throw new NotFoundException("review not found")
+      return review;
+  }
+
   
 }
