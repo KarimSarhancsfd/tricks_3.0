@@ -5,6 +5,7 @@ import {
   Inject,
   ForwardReference,
   forwardRef,
+  ForbiddenException,
 } from '@nestjs/common';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
@@ -62,8 +63,10 @@ export class ReviewsService {
   }
 
   public async update(reviewId:number, userId:number, dto: UpdateReviewDto){
-    const review = await this.reviewRepository.findOne({where: {id: reviewId}})
-    if(!review) throw new NotFoundException("review not found")
+    const review = await this.getReviewBy(reviewId)
+    if(review.user.id !== userId)
+      throw new ForbiddenException("access denied, you are not allowed")
+   
   }
 
 
@@ -74,7 +77,7 @@ export class ReviewsService {
    */
 
 
-  private async getReview(id: number){
+  private async getReviewBy(id: number){
      const review = await this.reviewRepository.findOne({where: {id}})
     if(!review) throw new NotFoundException("review not found")
       return review;
