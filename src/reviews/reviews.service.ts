@@ -66,6 +66,11 @@ export class ReviewsService {
     const review = await this.getReviewBy(reviewId)
     if(review.user.id !== userId)
       throw new ForbiddenException("access denied, you are not allowed")
+
+    review.rating = dto.rating ?? review .rating;
+    review.comment = dto.comment ?? review.comment;
+
+    return this.reviewRepository.save(review);
    
   }
 

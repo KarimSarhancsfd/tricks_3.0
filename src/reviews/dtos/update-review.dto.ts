@@ -22,4 +22,8 @@ export class UpdateReviewDto {
   @IsString({ message: 'Products must be a string' })
   @Length(3, 100)
   review?: string;
+
+   @IsString()
+ @MinLength(2)
+ comment: string
 }
