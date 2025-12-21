@@ -88,5 +88,17 @@ export class ReviewsService {
       return review;
   }
 
+  public async Delete(id:number, reviewId:number){
+    const review = await this.getReviewBy(reviewId)
+
+     if(!review){
+       throw new NotFoundException("review not found")
+      return review;
+    }else{
+      const removereview = await this.reviewRepository.remove(review) 
+    }
+
+  }
+
   
 }
