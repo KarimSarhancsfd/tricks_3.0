@@ -61,5 +61,16 @@ export class ReviewsController {
     return this.ReviewsService.update(id,payload.id,body)
   }
 
+
+  @Delete(':id')
+  @UseGuards(AuthRolesGuard)
+  @Roles(UserType.ADMIN, UserType.NORMAL_USER)
+  public deleteReview(
+    @Param('id', ParseIntPipe) id:number,
+    @CurrentUser() payload: JWTPayloadType
+  ){
+    return this.ReviewsService.Delete(id, payload)
+  }
+
  
 }
