@@ -24,13 +24,11 @@ type Reviews = {
 @Injectable()
 export class ReviewsService {
   constructor(
-   @InjectRepository(Review) private readonly reviewRepository: Repository<Review>,
-   private readonly productService: ProductsService,
-   private readonly UserService:  UsersService 
-
+    @InjectRepository(Review)
+    private readonly reviewRepository: Repository<Review>,
+    private readonly productService: ProductsService,
+    private readonly UserService: UsersService,
   ) {}
-  
-
 
   /**
    * Create new review
@@ -40,40 +38,39 @@ export class ReviewsService {
    * @returns the created review from the data base
    */
 
-
-  public async createReview(productId:number, userId:number, dto:CreateReviewDto ){
+  public async createReview(
+    productId: number,
+    userId: number,
+    dto: CreateReviewDto,
+  ) {
     const product = await this.productService.getsingleProducts(productId);
 
     const user = await this.UserService.getCurrentUser(userId);
 
-    const review = this.reviewRepository.create({...dto,user,product});
+    const review = this.reviewRepository.create({ ...dto, user, product });
 
-    const result = await  this.reviewRepository.save(review)
+    const result = await this.reviewRepository.save(review);
 
     return {
-      id:result.id,
+      id: result.id,
       comment: result.comment,
       rating: result.rating,
       createdAt: result.createdAt,
-      userId:user.id,
+      userId: user.id,
       productId: product.id,
-    }
-
-    
+    };
   }
 
-  public async update(reviewId:number, userId:number, dto: UpdateReviewDto){
-    const review = await this.getReviewBy(reviewId)
-    if(review.user.id !== userId)
-      throw new ForbiddenException("access denied, you are not allowed")
+  public async update(reviewId: number, userId: number, dto: UpdateReviewDto) {
+    const review = await this.getReviewBy(reviewId);
+    if (review.user.id !== userId)
+      throw new ForbiddenException('access denied, you are not allowed');
 
-    review.rating = dto.rating ?? review .rating;
+    review.rating = dto.rating ?? review.rating;
     review.comment = dto.comment ?? review.comment;
 
     return this.reviewRepository.save(review);
-   
   }
-
 
   /**
    * get single review by id
@@ -81,24 +78,20 @@ export class ReviewsService {
    * @returns review from the database
    */
 
-
-  private async getReviewBy(id: number){
-     const review = await this.reviewRepository.findOne({where: {id}})
-    if(!review) throw new NotFoundException("review not found")
-      return review;
+  private async getReviewBy(id: number) {
+    const review = await this.reviewRepository.findOne({ where: { id } });
+    if (!review) throw new NotFoundException('review not found');
+    return review;
   }
 
-  public async Delete(id:number, reviewId:number){
-    const review = await this.getReviewBy(reviewId)
+  public async Delete(id: number, reviewId: number,body:UpdateReviewDto) {
+    const review = await this.getReviewBy(reviewId);
 
-     if(!review){
-       throw new NotFoundException("review not found")
+    if (!review) {
+      throw new NotFoundException('review not found');
       return review;
-    }else{
-      const removereview = await this.reviewRepository.remove(review) 
+    } else {
+      const removereview = await this.reviewRepository.remove(review);
     }
-
   }
-
-  
 }

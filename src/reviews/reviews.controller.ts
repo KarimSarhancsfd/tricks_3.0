@@ -23,6 +23,7 @@ import type { JWTPayloadType } from 'src/utils/types';
 
 import { Roles } from 'src/users/decorators/user-role.decorator';
 import { UserType } from '../utils/enum';
+import { stringify } from 'querystring';
 
 
 
@@ -67,9 +68,11 @@ export class ReviewsController {
   @Roles(UserType.ADMIN, UserType.NORMAL_USER)
   public deleteReview(
     @Param('id', ParseIntPipe) id:number,
+    // @Param('payload', ParseIntPipe) payload:number
+      @Body() body: UpdateReviewDto,
     @CurrentUser() payload: JWTPayloadType
   ){
-    return this.ReviewsService.Delete(id, payload)
+    return this.ReviewsService.Delete(id, payload.id,body)
   }
 
  
