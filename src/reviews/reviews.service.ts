@@ -84,6 +84,10 @@ export class ReviewsService {
     return review;
   }
 
+  public async getAll(){
+    return this.reviewRepository.find({order: {createdAt: "DESC"}})
+  }
+
   public async Delete(id: number, reviewId: number,body:UpdateReviewDto) {
     const review = await this.getReviewBy(reviewId);
 
