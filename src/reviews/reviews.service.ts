@@ -84,8 +84,11 @@ export class ReviewsService {
     return review;
   }
 
-  public async getAll(){
-    return this.reviewRepository.find({order: {createdAt: "DESC"}})
+  public async getAll(pageNumber:number, reviewPerPage: number){
+    return this.reviewRepository.find(
+      skip: , 
+      take: , 
+      {order: {createdAt: "DESC"}})
   }
 
   public async Delete(id: number, reviewId: number,body:UpdateReviewDto) {
