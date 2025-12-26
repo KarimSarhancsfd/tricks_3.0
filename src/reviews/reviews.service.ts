@@ -85,10 +85,10 @@ export class ReviewsService {
   }
 
   public async getAll(pageNumber:number, reviewPerPage: number){
-    return this.reviewRepository.find(
-      skip: , 
-      take: , 
-      {order: {createdAt: "DESC"}})
+    return this.reviewRepository.find({
+      skip: 0, 
+      take: 3 , 
+      order: {createdAt: "DESC"}})
   }
 
   public async Delete(id: number, reviewId: number,body:UpdateReviewDto) {
