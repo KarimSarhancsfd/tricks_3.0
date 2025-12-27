@@ -84,7 +84,7 @@ export class ReviewsService {
     return review;
   }
 
-  public async getAll(pageNumber:number, reviewPerPage: number){
+  public async getAll(pageNumber?:number, reviewPerPage?: number){
     return this.reviewRepository.find({
       skip: 0, 
       take: 3 , 
