@@ -84,12 +84,18 @@ export class ReviewsService {
     return review;
   }
 
-  public async getAll(pageNumber?:number, reviewPerPage?: number){
-    return this.reviewRepository.find({
-      skip: 0, 
-      take: 3 , 
-      order: {createdAt: "DESC"}})
-  }
+
+   public async getAll(pageNumber?: number, reviewPerPage?: number) {
+  const skip = reviewPerPage && pageNumber ? reviewPerPage * (pageNumber - 1) : 0;
+  const take = reviewPerPage || undefined;
+  
+  return this.reviewRepository.find({
+    skip,
+    take, 
+    order: { createdAt: "DESC" }
+  });
+}
+  
 
   public async Delete(id: number, reviewId: number,body:UpdateReviewDto) {
     const review = await this.getReviewBy(reviewId);
