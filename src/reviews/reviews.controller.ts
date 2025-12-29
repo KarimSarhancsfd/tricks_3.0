@@ -12,6 +12,7 @@ import {
   UseGuards,
 
 } from '@nestjs/common';
+import{GetReviewsDto } from './dtos/class-validator.dto'
 
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
@@ -24,6 +25,7 @@ import type { JWTPayloadType } from 'src/utils/types';
 import { Roles } from 'src/users/decorators/user-role.decorator';
 import { UserType } from '../utils/enum';
 import { stringify } from 'querystring';
+import { Query } from 'typeorm/browser/driver/Query.js';
 
 
 
@@ -43,13 +45,15 @@ export class ReviewsController {
    {}//Beast practise
 
 
-  //GET: http://localhost:5000/api/reviews
-  //GET: ~/api/reviews
-  // @Get()
-  // getAllreviews() {
-  //   return this.ReviewsService.getAllreviews();
-  // }
+  // GET: http://localhost:5000/api/reviews
+  // GET: ~/api/reviews
+@Get()
+getAllreviews(
+@Query() query: GetReviewsDto
+) {
+  return this.ReviewsService.getAll(query.pageNumber, query.reviewPerPage);
 
+}
   //POST: ~/api/review/:productId
   @Put(':id')
   @UseGuards(AuthRolesGuard)
