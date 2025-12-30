@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   ValidationPipe,
   UseGuards,
+  Query
 
 } from '@nestjs/common';
 import{GetReviewsDto } from './dtos/class-validator.dto'
@@ -25,7 +26,7 @@ import type { JWTPayloadType } from 'src/utils/types';
 import { Roles } from 'src/users/decorators/user-role.decorator';
 import { UserType } from '../utils/enum';
 import { stringify } from 'querystring';
-import { Query } from 'typeorm/browser/driver/Query.js';
+
 
 
 
@@ -48,10 +49,13 @@ export class ReviewsController {
   // GET: http://localhost:5000/api/reviews
   // GET: ~/api/reviews
 @Get()
-getAllreviews(
-@Query() query: GetReviewsDto
+@UseGuards(AuthRolesGuard)
+@Roles(UserType.ADMIN)
+public getAllreviews(
+@Query('pageNumber') pageNumber: number,
+@Query('reviewPerPage') reviewPerPage: number
 ) {
-  return this.ReviewsService.getAll(query.pageNumber, query.reviewPerPage);
+  return this.ReviewsService.getAll(pageNumber, reviewPerPage)
 
 }
   //POST: ~/api/review/:productId
