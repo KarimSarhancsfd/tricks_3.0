@@ -85,6 +85,13 @@ export class ReviewsService {
   }
 
 
+/**
+ * Get all reviews
+ * @param pageNumber  number of the current page
+ * @param reviewPerPage data per page
+ * @returns collection of review
+ */
+
    public async getAll(pageNumber?: number, reviewPerPage?: number) {
   const skip = reviewPerPage && pageNumber ? reviewPerPage * (pageNumber - 1) : 0;
   const take = reviewPerPage || undefined;
