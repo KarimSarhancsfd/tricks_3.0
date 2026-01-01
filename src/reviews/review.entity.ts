@@ -43,7 +43,7 @@ export class Review {
     // Establishing a many-to-one relationship with Product
     // A reviews belongs to a single product
 
-  @ManyToOne(() => User, (user) => user.review, {eager:true})
+  @ManyToOne(() => User, (user) => user.review, {eager:true, onDelete: "CASCADE"})
     user: User;
   
 }
