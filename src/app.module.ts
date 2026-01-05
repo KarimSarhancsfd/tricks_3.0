@@ -9,6 +9,7 @@ import { config } from 'rxjs';
 import { Review } from './reviews/review.entity';
 import { User } from './users/user.entity';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { UploadsModule } from './uploads/uploads.module';
 @Module({
   // impotant Note: this is a typo, we canot inject in forroot
   //   imports: [ProductsModule,  ReviewsModule, UsersModule, TypeOrmModule.forRoot({
@@ -33,6 +34,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     ProductsModule,
     ReviewsModule,
     UsersModule,
+    UploadsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
