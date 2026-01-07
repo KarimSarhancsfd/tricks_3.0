@@ -1,5 +1,10 @@
 
 import {Module} from "@nestjs/common"
+import {UploadsController} from "./upload.controller"
+import { MulterModule } from "@nestjs/platform-express"
 
-@Module({})
+@Module({
+    controllers: [UploadsController],
+    imports: [MulterModule],
+})
 export class  UploadsModule {}
