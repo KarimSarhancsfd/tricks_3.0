@@ -5,6 +5,6 @@ import { MulterModule } from "@nestjs/platform-express"
 
 @Module({
     controllers: [UploadsController],
-    imports: [MulterModule],
+    imports: [MulterModule.register({dest: ''})],
 })
 export class  UploadsModule {}
