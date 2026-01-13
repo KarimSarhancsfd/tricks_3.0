@@ -11,7 +11,10 @@ export class UploadsController {
     @Post()
     @UseInterceptors (FileInterceptor("file", {
         storage: diskStorage({
-            destination: './images'
+            destination: './images',
+            filename: (req, file, cb) => {
+                
+            }
         })
     }))
     public uploadFile(){
