@@ -13,7 +13,7 @@ export class UploadsController {
         storage: diskStorage({
             destination: './images',
             filename: (req, file, cb) => {
-                
+                const prefix = `${Date.now()}- ${Math.round(Math.random() * 1000000 )} `;
             }
         })
     }))
