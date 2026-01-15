@@ -14,6 +14,8 @@ export class UploadsController {
             destination: './images',
             filename: (req, file, cb) => {
                 const prefix = `${Date.now()}- ${Math.round(Math.random() * 1000000 )} `;
+                const filename = `${prefix}-${file.filename}`
+                cb(null, filename)
             }
         })
     }))
