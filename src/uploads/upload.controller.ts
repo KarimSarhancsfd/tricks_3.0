@@ -17,9 +17,9 @@ export class UploadsController {
                 const filename = `${prefix}-${file.filename}`
                 cb(null, filename)
             }
-        })
+        }),
     }))
-    public uploadFile(){
+    public uploadFile(@UploadedFile()){
 
     }
 }
