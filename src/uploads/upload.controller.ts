@@ -1,7 +1,7 @@
 
-import { Controller, Post , UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Post , UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {Express} from "express"
+import type {Express} from "express"
 import { diskStorage } from 'multer';
 
 
@@ -19,7 +19,8 @@ export class UploadsController {
             }
         }),
     }))
-    public uploadFile(@UploadedFile()){
-
+    public uploadFile(@UploadedFile() file: Express.Multer.File){
+    if(!file) throw new BadRequestException("no file provided");
+    console.log("File upload", {file});
     }
 }
