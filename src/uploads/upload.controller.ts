@@ -18,6 +18,14 @@ export class UploadsController {
                 cb(null, filename)
             }
         }),
+
+        fileFilter: (req , file , cb) => {
+            if(file.mimetype.startsWith('image')){
+                cb(null, true)
+            }else {
+                cb(new BadRequestException('Unsupported file formate'), false)
+            }
+        }
     }))
     public uploadFile(@UploadedFile() file: Express.Multer.File){
     if(!file) throw new BadRequestException("no file provided");
