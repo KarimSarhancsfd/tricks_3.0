@@ -25,7 +25,8 @@ export class UploadsController {
             }else {
                 cb(new BadRequestException('Unsupported file formate'), false)
             }
-        }
+        },
+        limits: {fileSize: 100}
     }))
     public uploadFile(@UploadedFile() file: Express.Multer.File){
     if(!file) throw new BadRequestException("no file provided");
