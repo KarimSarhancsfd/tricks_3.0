@@ -1,5 +1,5 @@
 
-import { BadRequestException, Controller, Post , UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Post , UploadedFile, UseInterceptors,Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type {Express} from "express"
 import { diskStorage } from 'multer';
