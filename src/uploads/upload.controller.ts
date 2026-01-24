@@ -1,8 +1,9 @@
 
-import { BadRequestException, Controller, Post , UploadedFile, UseInterceptors,Res } from '@nestjs/common';
+import { BadRequestException, Controller, Post , UploadedFile, UseInterceptors,Res, Param,Get } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type {Express} from "express"
 import { diskStorage } from 'multer';
+import  type { Response } from 'express';
 
 
 @Controller("api/uploads")
@@ -31,5 +32,12 @@ export class UploadsController {
     public uploadFile(@UploadedFile() file: Express.Multer.File){
     if(!file) throw new BadRequestException("no file provided");
     console.log("File upload", {file});
+    }
+
+    //GET: /api/:image
+    @Get(":image")
+    public showUploadedImage(@Param("image") image: string, @Res() res:Response){
+        return res.sendFile(image, {root: 'images'})
+        
     }
 }
