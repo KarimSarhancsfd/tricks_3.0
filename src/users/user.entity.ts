@@ -53,6 +53,8 @@ export class User {
   })
   updatedAt: Date;
 
+  profileImage:string;
+
 
 
 
