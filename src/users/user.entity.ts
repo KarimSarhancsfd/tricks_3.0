@@ -52,7 +52,8 @@ export class User {
     onUpdate: CURRENT_TIMESTAMP,
   })
   updatedAt: Date;
-
+   
+  @Column({nullable: true})
   profileImage:string;
 
 
