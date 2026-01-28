@@ -53,7 +53,7 @@ export class User {
   })
   updatedAt: Date;
    
-  @Column({nullable: true})
+  @Column({nullable: true, default: null})
   profileImage:string;
 
 
